@@ -40,5 +40,9 @@ module Spree
     def cost_money
       Spree::Money.new(cost_price, currency: currency)
     end
+
+    def update_price
+      self.price = variant.price_including_vat_for(tax_zone: tax_zone) + ad_hoc_option_values.map(&:cost_price).inject(0, :+)
+    end
   end
 end
